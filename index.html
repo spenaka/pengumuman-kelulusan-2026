@@ -104,27 +104,54 @@
 
         /* ── Card ── */
         .card {
-            background: rgb(13,13,26);
-            border: 1px solid var(--c-border);
+            background: rgba(255,255,255,0.04);
+            border: none;
             border-radius: var(--radius-lg);
             padding: 2.5rem 2rem;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.06) inset,
-                var(--shadow-glow);
+            box-shadow: var(--shadow-glow);
             position: relative;
-            overflow: hidden;
+            overflow: visible;
+            isolation: isolate;
         }
 
+        /* Border berputar mengelilingi card */
         .card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear(90deg, var(--c-indigo), var(--c-pink), var(--c-cyan), var(--c-indigo));
-            background-size: 200% auto;
-            animation: shimmer 4s linear infinite;
+            inset: -2px;
+            border-radius: calc(var(--radius-lg) + 2px);
+            background: conic-gradient(
+                from var(--angle, 0deg),
+                var(--c-indigo),
+                var(--c-cyan),
+                var(--c-pink),
+                var(--c-yellow),
+                var(--c-indigo)
+            );
+            animation: borderSpin 4s linear infinite;
+            z-index: -1;
+        }
+
+        /* Inner fill supaya konten tidak transparan */
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: calc(var(--radius-lg) - 1px);
+            background: #0d1224;
+            z-index: -1;
+        }
+
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes borderSpin {
+            to { --angle: 360deg; }
         }
 
         @keyframes shimmer {
@@ -772,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-05-08T09:30:00+07:00').getTime();
+    const announcementTime = new Date('2026-05-08T09:45:00+07:00').getTime();
     const closingTime      = new Date('2026-05-08T09:50:00+07:00').getTime();
 
     // --- Captcha ---
