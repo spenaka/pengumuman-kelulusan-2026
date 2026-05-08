@@ -140,65 +140,58 @@
             margin-bottom: 1.5rem;
         }
 
-        .logo-ring {
-            position: absolute;
-            inset: -12px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            background: linear-gradient(135deg, var(--c-indigo), var(--c-pink)) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: destination-out;
-            mask-composite: exclude;
-            animation: ringPulse 3s ease-in-out infinite;
+        .logo-svg-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            padding: 20px;
         }
 
-        @keyframes ringPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%       { opacity: 0.5; transform: scale(1.08); }
+        /* Animated shield SVG sits behind the logo */
+        .logo-svg-wrap svg.shield-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140%;
+            height: 140%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .shield-path-anim {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-dasharray: 6 4;
+            animation: dashSpin 3s linear infinite;
+        }
+
+        .shield-path-glow {
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+            opacity: 0.18;
+        }
+
+        @keyframes dashSpin {
+            to { stroke-dashoffset: -200; }
         }
 
         .school-logo {
-            width: 90px;
-            height: 90px;
+            width: 100px;
+            height: auto;
             object-fit: contain;
-            border-radius: 50%;
             display: block;
             position: relative;
             z-index: 1;
             animation: logoFloat 5s ease-in-out infinite;
+            filter: drop-shadow(0 8px 20px rgba(67,97,238,0.35));
         }
 
         @keyframes logoFloat {
             0%, 100% { transform: translateY(0); }
             50%       { transform: translateY(-8px); }
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(67,97,238,0.18);
-            border: 1px solid rgba(67,97,238,0.35);
-            color: var(--c-cyan);
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 0.3rem 0.9rem;
-            border-radius: 100px;
-            margin-bottom: 1rem;
-        }
-
-        .badge-dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--c-cyan);
-            animation: blink 1.4s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50%       { opacity: 0.2; }
         }
 
         .title {
@@ -653,7 +646,7 @@
             .container { padding: 1rem; }
             .card { padding: 1.75rem 1.25rem; border-radius: 1.25rem; }
             .title { font-size: 1.55rem; }
-            .school-logo { width: 75px; height: 75px; }
+            .school-logo { width: 80px; height: auto; }
             .header { margin-bottom: 1.75rem; }
             .countdown-value { font-size: 1.6rem; }
             .status-big { font-size: 2.1rem; }
@@ -677,11 +670,26 @@
 
         <!-- Header -->
         <header class="header">
-            <div class="logo-wrap">
-                <div class="logo-ring"></div>
+            <div class="logo-svg-wrap">
+                <!-- Shield-shaped animated outline mengikuti bentuk logo perisai -->
+                <svg class="shield-ring" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#4361ee"/>
+                            <stop offset="50%" stop-color="#f72585"/>
+                            <stop offset="100%" stop-color="#4cc9f0"/>
+                        </linearGradient>
+                    </defs>
+                    <path class="shield-path-glow"
+                        d="M60 6 L108 24 L108 66 Q108 100 60 122 Q12 100 12 66 L12 24 Z"
+                        stroke="url(#sg1)"/>
+                    <path class="shield-path-anim"
+                        d="M60 6 L108 24 L108 66 Q108 100 60 122 Q12 100 12 66 L12 24 Z"
+                        stroke="url(#sg1)"
+                        stroke-dashoffset="0"/>
+                </svg>
                 <img src="https://lh3.googleusercontent.com/d/1ICfZeqr89uO3kXWwsjLDR708ZcnX8UGd" alt="Logo Sekolah" class="school-logo">
             </div>
-            <div class="badge"><span class="badge-dot"></span> Resmi &amp; Terverifikasi</div>
             <h1 class="title">PENGUMUMAN<br>KELULUSAN</h1>
             <p class="subtitle">Siswa Kelas 9 SMP Negeri 1 Kajoran<br>Tahun Pelajaran 2025/2026</p>
         </header>
@@ -819,8 +827,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-05-08T09:05:00+07:00').getTime();
-    const closingTime      = new Date('2026-05-08T09:10:00+07:00').getTime();
+    const announcementTime = new Date('2026-05-07T11:25:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-07T11:50:00+07:00').getTime();
 
     // --- Captcha ---
     function generateCaptcha() {
