@@ -6,714 +6,1018 @@
     <title>Pengumuman Kelulusan Siswa Kelas 9 SMP Negeri 1 Kajoran</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-color: #f0f4ff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --glass-bg: #ffffff;
-            --glass-border: rgba(255, 255, 255, 0.5);
-            --glass-shadow: 0 10px 40px -10px rgba(79, 70, 229, 0.15);
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --accent-yellow: #f59e0b;
-            --accent-pink: #ec4899;
+            --c-indigo:   #4361ee;
+            --c-violet:   #7209b7;
+            --c-pink:     #f72585;
+            --c-cyan:     #4cc9f0;
+            --c-yellow:   #ffd60a;
+            --c-green:    #06d6a0;
+            --c-red:      #ef233c;
+            --c-bg:       #0d0d1a;
+            --c-surface:  rgba(255,255,255,0.04);
+            --c-border:   rgba(255,255,255,0.09);
+            --c-text:     #f0f0ff;
+            --c-muted:    rgba(240,240,255,0.5);
+            --radius-lg:  1.75rem;
+            --radius-md:  1.1rem;
+            --shadow-glow: 0 0 60px rgba(67,97,238,0.25);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { background-color: var(--bg-color); }
+        html { background: var(--c-bg); scroll-behavior: smooth; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--c-bg);
+            color: var(--c-text);
             min-height: 100vh;
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
         }
 
-        body::before {
-            content: "";
+        /* ── Animated background ── */
+        .bg-canvas {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -1;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(79, 70, 229, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
-            animation: bgPulse 10s infinite alternate;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
         }
 
-        @keyframes bgPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+            animation: orbFloat linear infinite;
         }
 
+        .orb1 { width: 500px; height: 500px; background: var(--c-indigo); top: -15%; left: -10%; animation-duration: 18s; }
+        .orb2 { width: 400px; height: 400px; background: var(--c-pink);   bottom: -10%; right: -5%; animation-duration: 22s; animation-direction: reverse; }
+        .orb3 { width: 300px; height: 300px; background: var(--c-cyan);   top: 40%; left: 60%; animation-duration: 15s; }
+        .orb4 { width: 250px; height: 250px; background: var(--c-violet); bottom: 30%; left: 5%; animation-duration: 20s; animation-direction: reverse; }
+
+        @keyframes orbFloat {
+            0%   { transform: translate(0, 0) scale(1); }
+            33%  { transform: translate(30px, -40px) scale(1.05); }
+            66%  { transform: translate(-20px, 20px) scale(0.97); }
+            100% { transform: translate(0, 0) scale(1); }
+        }
+
+        /* Grid overlay */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        /* ── Main container ── */
         .container {
-            max-width: 600px;
+            position: relative;
+            z-index: 1;
             width: 100%;
+            max-width: 560px;
             padding: 1.5rem;
-            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: pageIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes pageIn {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .glass-panel {
-            background: var(--glass-bg);
-            border: 2px solid var(--glass-border);
-            border-radius: 2rem;
-            box-shadow: var(--glass-shadow);
-            padding: 2.5rem;
-            width: 100%;
+        /* ── Card ── */
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 2rem;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.06) inset,
+                var(--shadow-glow);
             position: relative;
             overflow: hidden;
         }
 
-        /* Header */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--c-indigo), var(--c-pink), var(--c-cyan), var(--c-indigo));
+            background-size: 200% auto;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        /* ── Header ── */
         .header { text-align: center; margin-bottom: 2.5rem; }
 
-        .logo-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+        .logo-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-ring {
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, var(--c-indigo), var(--c-pink)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.5; transform: scale(1.08); }
+        }
 
         .school-logo {
-            width: 100px;
-            height: auto;
-            max-height: 100px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
-            animation: logoFloat 4s infinite ease-in-out;
+            border-radius: 50%;
+            display: block;
+            position: relative;
+            z-index: 1;
+            animation: logoFloat 5s ease-in-out infinite;
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(67,97,238,0.18);
+            border: 1px solid rgba(67,97,238,0.35);
+            color: var(--c-cyan);
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.9rem;
+            border-radius: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .badge-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--c-cyan);
+            animation: blink 1.4s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
         }
 
         .title {
-            font-size: 2.5rem;
+            font-family: 'Sora', sans-serif;
+            font-size: 2.1rem;
             font-weight: 800;
-            letter-spacing: -0.025em;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-pink) 100%);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #fff 0%, var(--c-cyan) 50%, var(--c-pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-            line-height: 1.2;
+            margin-bottom: 0.75rem;
         }
 
         .subtitle {
-            color: var(--text-secondary);
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1.4;
+            color: var(--c-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.6;
         }
 
-        /* Form */
-        .form { display: flex; flex-direction: column; gap: 1.5rem; }
+        /* ── Countdown ── */
+        .countdown-label-text {
+            text-align: center;
+            color: var(--c-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            padding: 1rem 0.5rem 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            transition: border-color 0.3s;
+        }
+
+        .countdown-value {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1;
+            background: linear-gradient(135deg, #fff, var(--c-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .countdown-unit {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--c-muted);
+        }
+
+        /* closing countdown */
+        .closing-countdown .countdown-item {
+            background: rgba(239,35,60,0.08);
+            border-color: rgba(239,35,60,0.2);
+        }
+
+        .closing-countdown .countdown-value {
+            background: linear-gradient(135deg, #ff6b6b, var(--c-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .closing-label {
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+        }
+
+        /* ── Form ── */
+        .form { display: flex; flex-direction: column; gap: 1.25rem; }
 
         .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
         .label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: #475569;
+            color: var(--c-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.07em;
         }
 
         .input {
             width: 100%;
-            padding: 1rem 1.25rem;
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 1rem;
-            color: var(--text-primary);
-            font-size: 1rem;
+            padding: 0.9rem 1.1rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: var(--radius-md);
+            color: var(--c-text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
             font-weight: 500;
-            transition: all 0.3s ease;
             outline: none;
+            transition: all 0.25s ease;
         }
+
+        .input::placeholder { color: rgba(255,255,255,0.25); }
 
         .input:focus {
-            background: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            background: rgba(67,97,238,0.1);
+            border-color: var(--c-indigo);
+            box-shadow: 0 0 0 3px rgba(67,97,238,0.18);
         }
 
-        .input-helper {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
+        .input-hint {
+            font-size: 0.72rem;
+            color: var(--c-muted);
             font-weight: 500;
         }
 
-        .button {
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-pink), var(--accent-yellow), var(--primary-color));
-            background-size: 300% auto;
-            color: white;
-            border: none;
-            border-radius: 1rem;
-            padding: 1.125rem;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            margin-top: 1rem;
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
-        }
-
-        .button:hover {
-            background-position: right center;
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3);
-        }
-
-        .button:disabled { opacity: 0.6; cursor: not-allowed; filter: grayscale(1); }
-
-        /* Result Section */
-        .result-container { text-align: center; }
-        .result-title { font-size: 1.25rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 1.5rem; }
-
-        .status-card {
-            padding: 2.5rem 1.5rem;
-            border-radius: 2rem;
-            margin-bottom: 2rem;
+        /* ── Button ── */
+        .btn-primary {
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            animation: cardIn 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--c-indigo) 0%, var(--c-pink) 100%);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            font-family: 'Sora', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 8px 30px rgba(67,97,238,0.4);
         }
 
-        @keyframes cardIn {
-            from { opacity: 0; scale: 0.9; }
-            to { opacity: 1; scale: 1; }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(247,37,133,0.4);
+        }
+
+        .btn-primary:hover::after { background: rgba(255,255,255,0.07); }
+        .btn-primary:active { transform: translateY(0); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(0.5); transform: none !important; }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--c-muted);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--c-indigo);
+            color: var(--c-text);
+            background: rgba(67,97,238,0.08);
+        }
+
+        /* ── Error ── */
+        .error-box {
+            background: rgba(239,35,60,0.1);
+            border: 1px solid rgba(239,35,60,0.3);
+            border-radius: var(--radius-md);
+            padding: 0.9rem 1rem;
+            color: #ff6b6b;
+            font-size: 0.87rem;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 0.5rem;
+            animation: shake 0.35s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25%       { transform: translateX(-6px); }
+            75%       { transform: translateX(6px); }
+        }
+
+        /* ── Loader ── */
+        .loader-wrap { text-align: center; padding: 2rem 0; }
+
+        .loader-ring {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(67,97,238,0.15);
+            border-top-color: var(--c-indigo);
+            border-right-color: var(--c-pink);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loader-text { color: var(--c-muted); font-size: 0.9rem; font-weight: 600; }
+
+        /* ── Result ── */
+        .result-area { animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-heading {
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--c-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Status card LULUS */
+        .status-card {
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--c-indigo), var(--c-pink), var(--c-cyan));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
         }
 
         .status-lulus {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            color: white;
-            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.4);
+            background: linear-gradient(135deg, rgba(67,97,238,0.25) 0%, rgba(247,37,133,0.2) 100%);
         }
 
         .status-tidak-lulus {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
         }
 
-        .card-icon {
-            width: 80px;
-            height: 80px;
-            background: white;
+        .status-tidak-lulus::before {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+        }
+
+        .status-icon {
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            font-size: 2.5rem;
+            margin: 0 auto 1.25rem;
+            font-size: 2rem;
         }
 
-        .status-lulus .card-icon { color: var(--accent-yellow); }
-        .status-tidak-lulus .card-icon { color: var(--danger-color); }
+        .status-lulus .status-icon {
+            background: linear-gradient(135deg, var(--c-yellow), #ff9f0a);
+            box-shadow: 0 0 30px rgba(255,214,10,0.5);
+            animation: iconPop 0.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) both;
+        }
 
-        .student-name { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
-        .student-info { font-size: 1.1rem; opacity: 0.9; margin-bottom: 1.5rem; }
+        .status-tidak-lulus .status-icon {
+            background: rgba(239,35,60,0.15);
+            border: 1px solid rgba(239,35,60,0.3);
+        }
 
-        .divider { height: 1px; background: rgba(255, 255, 255, 0.2); margin: 1.5rem 0; }
-        .status-tidak-lulus .divider { background: #e2e8f0; }
+        @keyframes iconPop {
+            0%   { transform: scale(0) rotate(-15deg); }
+            70%  { transform: scale(1.15) rotate(5deg); }
+            100% { transform: scale(1) rotate(0); }
+        }
 
-        .status-label { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-        .status-text { font-size: 3rem; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; }
+        .student-name {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            letter-spacing: -0.01em;
+        }
 
-        /* Notice Card */
+        .student-meta {
+            font-size: 0.87rem;
+            color: var(--c-muted);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: rgba(255,255,255,0.08);
+            margin: 1.5rem 0;
+        }
+
+        .status-lulus .divider-line { background: rgba(255,255,255,0.15); }
+
+        .status-label-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--c-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-lulus .status-label-text { color: rgba(255,255,255,0.6); }
+
+        .status-big {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+        }
+
+        .status-lulus .status-big {
+            background: linear-gradient(135deg, #fff 0%, var(--c-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-tidak-lulus .status-big { color: #ff6b6b; }
+
+        .btn-skl {
+            display: none;
+            margin: 1.5rem auto 0;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: var(--radius-md);
+            padding: 0.8rem 2rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-skl:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+
+        /* ── Notice card ── */
         .notice-card {
-            background: #fffbeb;
-            border: 2px solid #fef3c7;
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: left;
+            background: rgba(255,214,10,0.06);
+            border: 1px solid rgba(255,214,10,0.18);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
         }
 
         .notice-title {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: #d97706;
+            color: var(--c-yellow);
+            font-size: 0.78rem;
             font-weight: 800;
-            font-size: 1rem;
-            margin-bottom: 1rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        .notice-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+        .notice-list { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
 
         .notice-item {
             display: flex;
-            gap: 0.75rem;
+            gap: 0.65rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: rgba(240,240,255,0.7);
+            text-align: left;
+        }
+
+        .notice-dot { color: var(--c-yellow); flex-shrink: 0; margin-top: 2px; }
+
+        /* ── Site closed ── */
+        .site-closed {
+            text-align: center;
+            padding: 2.5rem 0;
+        }
+
+        .closed-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .closed-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .closed-desc {
+            color: var(--c-muted);
             font-size: 0.9rem;
-            line-height: 1.4;
-            color: #4b5563;
-            text-align: justify;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
         }
 
-        .notice-dot { color: #fbbf24; font-weight: bold; }
-
-        .back-button {
-            background: white;
-            color: var(--text-secondary);
-            border: 2px solid #e2e8f0;
-            border-radius: 1rem;
-            padding: 0.875rem 2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .closed-contact {
+            background: rgba(239,35,60,0.08);
+            border: 1px solid rgba(239,35,60,0.2);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            color: #ff6b6b;
+            font-size: 0.87rem;
+            font-weight: 600;
+            line-height: 1.8;
         }
-
-        .back-button:hover { border-color: var(--primary-color); color: var(--primary-color); }
 
         .hidden { display: none !important; }
 
-        .error-text {
-            color: var(--danger-color);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 1rem;
-            background: #fef2f2;
-            padding: 1rem;
-            border-radius: 0.75rem;
-        }
-
-        /* Countdown */
-        .countdown-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .countdown-item {
-            background: #f8fafc;
-            padding: 1rem 0.5rem;
-            border-radius: 1.25rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-            border: 1px solid #f1f5f9;
-        }
-
-        .countdown-value {
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .closing-countdown .countdown-item { background: #fef2f2; border: 1px solid #fecaca; }
-
-        .closing-value {
-            background: linear-gradient(135deg, #ef4444, #f97316) !important;
-            -webkit-background-clip: text !important;
-            -webkit-text-fill-color: transparent !important;
-        }
-
-        /* Spinner */
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(79, 70, 229, 0.1);
-            border-left-color: var(--primary-color);
-            border-radius: 50%;
-            margin: 2rem auto;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
+        /* ── Mobile ── */
         @media (max-width: 480px) {
-            body { justify-content: flex-start; padding: 1rem 0; }
+            body { justify-content: flex-start; padding: 0; }
             .container { padding: 1rem; }
-            .glass-panel { padding: 1.5rem; border-radius: 1.5rem; }
-            .school-logo { width: 80px; }
-            .header { margin-bottom: 1.5rem; }
-            .title { font-size: 1.4rem; }
-            .subtitle { font-size: 1.1rem; }
-            .status-text { font-size: 2rem; }
-            .student-name { font-size: 1.25rem; }
-            .countdown-grid { gap: 0.5rem; }
-            .countdown-value { font-size: 1.5rem; }
-            .countdown-label { font-size: 0.6rem; }
+            .card { padding: 1.75rem 1.25rem; border-radius: 1.25rem; }
+            .title { font-size: 1.55rem; }
+            .school-logo { width: 75px; height: 75px; }
+            .header { margin-bottom: 1.75rem; }
+            .countdown-value { font-size: 1.6rem; }
+            .status-big { font-size: 2.1rem; }
+            .student-name { font-size: 1.3rem; }
         }
     </style>
 </head>
-
 <body>
-    <main class="container">
-        <div class="glass-panel">
 
-            <!-- Header -->
-            <header class="header">
-                <div class="logo-container">
-                    <img src="https://lh3.googleusercontent.com/d/1ICfZeqr89uO3kXWwsjLDR708ZcnX8UGd" alt="Logo Sekolah" class="school-logo">
-                </div>
-                <h1 class="title">PENGUMUMAN KELULUSAN</h1>
-                <p class="subtitle">Siswa Kelas 9 SMP Negeri 1 Kajoran <br> Tahun Pelajaran 2025/2026</p>
-            </header>
+<!-- Animated background -->
+<div class="bg-canvas">
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="bg-orb orb3"></div>
+    <div class="bg-orb orb4"></div>
+</div>
+<div class="bg-grid"></div>
 
-            <!-- Countdown Pembukaan -->
-            <div id="countdownArea" class="hidden">
-                <p style="text-align:center;color:var(--text-secondary);font-weight:700;margin-bottom:1.5rem;">
-                    Pengumuman akan dibuka dalam:</p>
-                <div class="countdown-grid">
-                    <div class="countdown-item"><span id="days" class="countdown-value">00</span><span class="countdown-label">Hari</span></div>
-                    <div class="countdown-item"><span id="hours" class="countdown-value">00</span><span class="countdown-label">Jam</span></div>
-                    <div class="countdown-item"><span id="minutes" class="countdown-value">00</span><span class="countdown-label">Menit</span></div>
-                    <div class="countdown-item"><span id="seconds" class="countdown-value">00</span><span class="countdown-label">Detik</span></div>
-                </div>
+<main class="container">
+    <div class="card">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-wrap">
+                <div class="logo-ring"></div>
+                <img src="https://lh3.googleusercontent.com/d/1ICfZeqr89uO3kXWwsjLDR708ZcnX8UGd" alt="Logo Sekolah" class="school-logo">
             </div>
+            <div class="badge"><span class="badge-dot"></span> Resmi &amp; Terverifikasi</div>
+            <h1 class="title">PENGUMUMAN<br>KELULUSAN</h1>
+            <p class="subtitle">Siswa Kelas 9 SMP Negeri 1 Kajoran<br>Tahun Pelajaran 2025/2026</p>
+        </header>
 
-            <!-- Search Form -->
-            <form id="searchForm" class="form hidden">
-                <div class="input-group">
-                    <label class="label" for="nisInput">Nomor Induk Siswa (NIS)</label>
-                    <input type="tel" id="nisInput" class="input" placeholder="Masukkan NIS Anda" required autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <label class="label" for="birthDateInput">Tanggal Lahir</label>
-                    <input type="tel" id="birthDateInput" class="input" placeholder="tanggal/bulan/tahun" maxlength="10" required autocomplete="off" inputmode="numeric">
-                    <small class="input-helper">Contoh: 17/08/2007</small>
-                </div>
-                <div class="input-group">
-                    <label class="label" id="captchaLabel">Keamanan: Berapa ? + ?</label>
-                    <input type="number" id="captchaInput" class="input" placeholder="Jawaban Anda" required autocomplete="off">
-                </div>
-                <div id="errorMessage" class="error-text hidden"></div>
-                <button type="submit" id="searchBtn" class="button">Cek Status Kelulusan</button>
-            </form>
-
-            <!-- Loading -->
-            <div id="loader" class="hidden">
-                <div class="spinner"></div>
-                <p style="text-align:center;color:var(--text-secondary);font-weight:600;">Mencari Data...</p>
+        <!-- Countdown Pembukaan -->
+        <div id="countdownArea" class="hidden">
+            <p class="countdown-label-text">⏳ Pengumuman dibuka dalam</p>
+            <div class="countdown-grid">
+                <div class="countdown-item"><span id="days" class="countdown-value">00</span><span class="countdown-unit">Hari</span></div>
+                <div class="countdown-item"><span id="hours" class="countdown-value">00</span><span class="countdown-unit">Jam</span></div>
+                <div class="countdown-item"><span id="minutes" class="countdown-value">00</span><span class="countdown-unit">Menit</span></div>
+                <div class="countdown-item"><span id="seconds" class="countdown-value">00</span><span class="countdown-unit">Detik</span></div>
             </div>
-
-            <!-- Result Section -->
-            <div id="resultArea" class="result-container hidden">
-                <div class="result-title">Hasil Kelulusan</div>
-                <div id="statusCard" class="status-card">
-                    <div class="card-icon" id="cardIcon"><i class="fa-solid fa-trophy"></i></div>
-                    <div class="student-name" id="resNama">-</div>
-                    <div class="student-info">NIS: <span id="resNIS">-</span> &nbsp;•&nbsp; Kelas: <span id="resKelas">-</span></div>
-                    <div class="divider"></div>
-                    <div class="status-label" id="statusLabel">Selamat! Anda dinyatakan</div>
-                    <div class="status-text" id="statusText">LULUS</div>
-                    <button id="sklBtn" class="button" style="margin:1.5rem auto 0;background:#312e81;color:white;display:none;padding:0.875rem 2rem;">
-                        <i class="fa-solid fa-download"></i> Unduh SKL
-                    </button>
-                </div>
-
-                <div class="notice-card">
-                    <div class="notice-title"><i class="fa-solid fa-circle-exclamation"></i> Himbauan Penting</div>
-                    <ul class="notice-list">
-                        <li class="notice-item"><span class="notice-dot">•</span><span><b>Dilarang Konvoi:</b> Siswa dilarang melakukan konvoi di jalan raya demi menjaga ketertiban umum.</span></li>
-                        <li class="notice-item"><span class="notice-dot">•</span><span><b>Dilarang Corat-coret:</b> Hindari mencorat-coret seragam sekolah. Lebih baik disumbangkan.</span></li>
-                        <li class="notice-item"><span class="notice-dot">•</span><span><b>Rayakan dengan Syukur:</b> Rayakanlah kelulusan ini dengan penuh rasa syukur bersama keluarga.</span></li>
-                    </ul>
-                </div>
-
-                <button id="backBtn" class="back-button">Kembali Pencarian</button>
-            </div>
-
-            <!-- Timer Penutupan -->
-            <div id="closingCountdownArea" class="hidden" style="margin-top:2rem;">
-                <p style="text-align:center;color:#ef4444;font-weight:700;margin-bottom:1rem;">⚠️ Pengumuman ditutup dalam:</p>
-                <div class="countdown-grid closing-countdown">
-                    <div class="countdown-item"><span id="closingDays" class="countdown-value closing-value">00</span><span class="countdown-label">Hari</span></div>
-                    <div class="countdown-item"><span id="closingHours" class="countdown-value closing-value">00</span><span class="countdown-label">Jam</span></div>
-                    <div class="countdown-item"><span id="closingMinutes" class="countdown-value closing-value">00</span><span class="countdown-label">Menit</span></div>
-                    <div class="countdown-item"><span id="closingSeconds" class="countdown-value closing-value">00</span><span class="countdown-label">Detik</span></div>
-                </div>
-            </div>
-
-            <!-- Situs Ditutup -->
-            <div id="siteClosedArea" class="hidden" style="text-align:center;padding:3rem 0;">
-                <div style="font-size:4rem;margin-bottom:1rem;">🔒</div>
-                <h2 style="font-size:1.5rem;font-weight:800;color:#1e293b;margin-bottom:0.75rem;">Pengumuman Telah Ditutup</h2>
-                <p style="color:#64748b;font-size:1rem;line-height:1.6;">Masa pengumuman kelulusan telah berakhir.<br>Silakan hubungi pihak sekolah untuk informasi lebih lanjut.</p>
-                <div style="margin-top:1.5rem;padding:1rem;background:#fef2f2;border-radius:1rem;border:1px solid #fecaca;">
-                    <p style="color:#ef4444;font-weight:600;font-size:0.9rem;">
-                        📞 Hubungi: SMP Negeri 1 Kajoran<br>🕐 Jam Operasional: 07.00 - 15.00 WIB
-                    </p>
-                </div>
-            </div>
-
         </div>
-    </main>
 
-    <script>
-    // ============================================================
-    // GANTI URL INI dengan URL Web App Google Apps Script Anda
-    // Cara: GAS → Deploy → Manage Deployments → copy URL-nya
-    // ============================================================
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbysc9gA4tTia1HXvbE40gm9GdFReLVqRRDcQ6gr_jhAC97NZ6BsDg17qJNQ81YRE0sS/exec';
-    // ============================================================
+        <!-- Form -->
+        <form id="searchForm" class="form hidden">
+            <div class="input-group">
+                <label class="label" for="nisInput">Nomor Induk Siswa (NIS)</label>
+                <input type="tel" id="nisInput" class="input" placeholder="Masukkan NIS Anda" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label class="label" for="birthDateInput">Tanggal Lahir</label>
+                <input type="tel" id="birthDateInput" class="input" placeholder="tanggal/bulan/tahun" maxlength="10" required autocomplete="off" inputmode="numeric">
+                <small class="input-hint">Contoh: 17/08/2007</small>
+            </div>
+            <div class="input-group">
+                <label class="label" id="captchaLabel">Keamanan: Berapa ? + ?</label>
+                <input type="number" id="captchaInput" class="input" placeholder="Jawaban Anda" required autocomplete="off">
+            </div>
+            <div id="errorMessage" class="error-box hidden"></div>
+            <button type="submit" id="searchBtn" class="btn-primary">
+                <i class="fa-solid fa-magnifying-glass" style="margin-right:0.5rem;"></i>Cek Status Kelulusan
+            </button>
+        </form>
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const closingCountdownArea = document.getElementById('closingCountdownArea');
-        const siteClosedArea       = document.getElementById('siteClosedArea');
-        const closingDaysEl        = document.getElementById('closingDays');
-        const closingHoursEl       = document.getElementById('closingHours');
-        const closingMinsEl        = document.getElementById('closingMinutes');
-        const closingSecsEl        = document.getElementById('closingSeconds');
-        const searchForm           = document.getElementById('searchForm');
-        const nisInput             = document.getElementById('nisInput');
-        const birthDateInput       = document.getElementById('birthDateInput');
-        const captchaInput         = document.getElementById('captchaInput');
-        const captchaLabel         = document.getElementById('captchaLabel');
-        const resultArea           = document.getElementById('resultArea');
-        const countdownArea        = document.getElementById('countdownArea');
-        const loader               = document.getElementById('loader');
-        const errorMessage         = document.getElementById('errorMessage');
-        const searchBtn            = document.getElementById('searchBtn');
-        const backBtn              = document.getElementById('backBtn');
-        const daysEl               = document.getElementById('days');
-        const hoursEl              = document.getElementById('hours');
-        const minsEl               = document.getElementById('minutes');
-        const secsEl               = document.getElementById('seconds');
-        const resNama              = document.getElementById('resNama');
-        const resNIS               = document.getElementById('resNIS');
-        const resKelas             = document.getElementById('resKelas');
-        const statusText           = document.getElementById('statusText');
-        const statusLabel          = document.getElementById('statusLabel');
-        const statusCard           = document.getElementById('statusCard');
-        const cardIcon             = document.getElementById('cardIcon');
+        <!-- Loader -->
+        <div id="loader" class="loader-wrap hidden">
+            <div class="loader-ring"></div>
+            <p class="loader-text">Mencari data siswa…</p>
+        </div>
 
-        let captchaData = { a: 0, b: 0, answer: 0 };
+        <!-- Result -->
+        <div id="resultArea" class="result-area hidden">
+            <p class="result-heading">✦ Hasil Kelulusan ✦</p>
+            <div id="statusCard" class="status-card">
+                <div class="status-icon" id="cardIcon"><i class="fa-solid fa-trophy"></i></div>
+                <div class="student-name" id="resNama">-</div>
+                <div class="student-meta">NIS: <span id="resNIS">-</span> &nbsp;•&nbsp; Kelas: <span id="resKelas">-</span></div>
+                <div class="divider-line"></div>
+                <div class="status-label-text" id="statusLabel">Selamat! Anda dinyatakan</div>
+                <div class="status-big" id="statusText">LULUS</div>
+                <button id="sklBtn" class="btn-skl">
+                    <i class="fa-solid fa-download"></i> Unduh SKL
+                </button>
+            </div>
 
-        // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-        const announcementTime = new Date('2026-05-08T09:00:00+07:00').getTime();
-        const closingTime      = new Date('2026-05-08T09:10:00+07:00').getTime();
+            <div class="notice-card">
+                <div class="notice-title"><i class="fa-solid fa-triangle-exclamation"></i> Himbauan Penting</div>
+                <ul class="notice-list">
+                    <li class="notice-item"><span class="notice-dot">▸</span><span><b>Dilarang Konvoi:</b> Siswa dilarang melakukan konvoi di jalan raya demi menjaga ketertiban umum.</span></li>
+                    <li class="notice-item"><span class="notice-dot">▸</span><span><b>Dilarang Corat-coret:</b> Hindari mencorat-coret seragam sekolah. Lebih baik disumbangkan.</span></li>
+                    <li class="notice-item"><span class="notice-dot">▸</span><span><b>Rayakan dengan Syukur:</b> Rayakanlah kelulusan ini dengan penuh rasa syukur bersama keluarga.</span></li>
+                </ul>
+            </div>
 
-        // --- Captcha ---
-        function generateCaptcha() {
-            const a = Math.floor(Math.random() * 10) + 1;
-            const b = Math.floor(Math.random() * 10) + 1;
-            captchaData = { a, b, answer: a + b };
-            captchaLabel.textContent = `Keamanan: Berapa ${a} + ${b}?`;
+            <div style="text-align:center;">
+                <button id="backBtn" class="btn-secondary">← Cari Siswa Lain</button>
+            </div>
+        </div>
+
+        <!-- Countdown Penutupan -->
+        <div id="closingCountdownArea" class="hidden" style="margin-top:2rem;">
+            <p class="closing-label">⚠️ Pengumuman ditutup dalam</p>
+            <div class="countdown-grid closing-countdown">
+                <div class="countdown-item"><span id="closingDays" class="countdown-value">00</span><span class="countdown-unit">Hari</span></div>
+                <div class="countdown-item"><span id="closingHours" class="countdown-value">00</span><span class="countdown-unit">Jam</span></div>
+                <div class="countdown-item"><span id="closingMinutes" class="countdown-value">00</span><span class="countdown-unit">Menit</span></div>
+                <div class="countdown-item"><span id="closingSeconds" class="countdown-value">00</span><span class="countdown-unit">Detik</span></div>
+            </div>
+        </div>
+
+        <!-- Situs Ditutup -->
+        <div id="siteClosedArea" class="site-closed hidden">
+            <span class="closed-icon">🔒</span>
+            <h2 class="closed-title">Pengumuman Telah Ditutup</h2>
+            <p class="closed-desc">Masa pengumuman kelulusan telah berakhir.<br>Silakan hubungi pihak sekolah untuk informasi lebih lanjut.</p>
+            <div class="closed-contact">
+                📞 SMP Negeri 1 Kajoran<br>
+                🕐 Jam Operasional: 07.00 – 15.00 WIB
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<script>
+// ============================================================
+// GANTI URL INI dengan URL Web App Google Apps Script Anda
+// Cara: GAS → Deploy → Manage Deployments → copy URL-nya
+// ============================================================
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbysc9gA4tTia1HXvbE40gm9GdFReLVqRRDcQ6gr_jhAC97NZ6BsDg17qJNQ81YRE0sS/exec';
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    const closingCountdownArea = document.getElementById('closingCountdownArea');
+    const siteClosedArea       = document.getElementById('siteClosedArea');
+    const closingDaysEl        = document.getElementById('closingDays');
+    const closingHoursEl       = document.getElementById('closingHours');
+    const closingMinsEl        = document.getElementById('closingMinutes');
+    const closingSecsEl        = document.getElementById('closingSeconds');
+    const searchForm           = document.getElementById('searchForm');
+    const nisInput             = document.getElementById('nisInput');
+    const birthDateInput       = document.getElementById('birthDateInput');
+    const captchaInput         = document.getElementById('captchaInput');
+    const captchaLabel         = document.getElementById('captchaLabel');
+    const resultArea           = document.getElementById('resultArea');
+    const countdownArea        = document.getElementById('countdownArea');
+    const loader               = document.getElementById('loader');
+    const errorMessage         = document.getElementById('errorMessage');
+    const searchBtn            = document.getElementById('searchBtn');
+    const backBtn              = document.getElementById('backBtn');
+    const daysEl               = document.getElementById('days');
+    const hoursEl              = document.getElementById('hours');
+    const minsEl               = document.getElementById('minutes');
+    const secsEl               = document.getElementById('seconds');
+    const resNama              = document.getElementById('resNama');
+    const resNIS               = document.getElementById('resNIS');
+    const resKelas             = document.getElementById('resKelas');
+    const statusText           = document.getElementById('statusText');
+    const statusLabel          = document.getElementById('statusLabel');
+    const statusCard           = document.getElementById('statusCard');
+    const cardIcon             = document.getElementById('cardIcon');
+
+    let captchaData = { a: 0, b: 0, answer: 0 };
+
+    // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
+    const announcementTime = new Date('2026-05-07T11:25:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-07T11:50:00+07:00').getTime();
+
+    // --- Captcha ---
+    function generateCaptcha() {
+        const a = Math.floor(Math.random() * 10) + 1;
+        const b = Math.floor(Math.random() * 10) + 1;
+        captchaData = { a, b, answer: a + b };
+        captchaLabel.textContent = `Keamanan: Berapa ${a} + ${b}?`;
+    }
+
+    // --- UI Helpers ---
+    function showLoader() {
+        searchForm.classList.add('hidden');
+        closingCountdownArea.classList.add('hidden');
+        loader.classList.remove('hidden');
+        searchBtn.disabled = true;
+    }
+
+    function hideLoader() {
+        loader.classList.add('hidden');
+        searchBtn.disabled = false;
+    }
+
+    function showError(msg) {
+        errorMessage.textContent = msg;
+        errorMessage.classList.remove('hidden');
+        // re-trigger shake animation
+        errorMessage.style.animation = 'none';
+        errorMessage.offsetHeight;
+        errorMessage.style.animation = '';
+    }
+
+    // --- Tampilkan hasil ---
+    function displayResult(student) {
+        resNama.textContent  = student.nama  || '-';
+        resNIS.textContent   = student.nis   || '-';
+        resKelas.textContent = student.kelas || '-';
+
+        const status = (student.status || '').toUpperCase();
+        statusText.textContent = status;
+        statusCard.className   = 'status-card';
+
+        if (status === 'LULUS') {
+            statusCard.classList.add('status-lulus');
+            statusLabel.textContent = 'Selamat! Anda dinyatakan';
+            cardIcon.innerHTML      = '<i class="fa-solid fa-trophy"></i>';
+
+            const sklBtn = document.getElementById('sklBtn');
+            const urlSkl = student.url_skl || '';
+            if (urlSkl) {
+                sklBtn.style.display = 'inline-flex';
+                sklBtn.onclick = () => window.open(urlSkl, '_blank');
+            } else {
+                sklBtn.style.display = 'none';
+            }
+            fireConfetti();
+        } else {
+            statusCard.classList.add('status-tidak-lulus');
+            statusLabel.textContent = 'Tetap Semangat! Anda dinyatakan';
+            cardIcon.innerHTML      = '<i class="fa-solid fa-circle-xmark"></i>';
+            document.getElementById('sklBtn').style.display = 'none';
         }
 
-        // --- UI Helpers ---
-        function showLoader() {
+        resultArea.classList.remove('hidden');
+        closingCountdownArea.classList.remove('hidden');
+    }
+
+    // --- Confetti ---
+    function fireConfetti() {
+        const duration    = 4000;
+        const animEnd     = Date.now() + duration;
+
+        confetti({ particleCount: 150, spread: 110, origin: { x: 0.5, y: 0.5 }, colors: ['#4361ee','#f72585','#4cc9f0','#ffd60a','#06d6a0'] });
+
+        const iv = setInterval(() => {
+            const left = animEnd - Date.now();
+            if (left <= 0) return clearInterval(iv);
+            const cnt = 60 * (left / duration);
+            const r   = (a, b) => Math.random() * (b - a) + a;
+            [{ angle: 60, x: 0 }, { angle: 120, x: 1 }].forEach(({ angle, x }) => {
+                confetti({ particleCount: Math.floor(cnt / 2), angle, spread: 70, origin: { x, y: 0.65 }, colors: ['#4361ee','#f72585','#4cc9f0','#ffd60a','#06d6a0'], ticks: 200, gravity: 0.9, scalar: r(0.8, 1.4), drift: r(-0.5, 0.5) });
+            });
+        }, 300);
+    }
+
+    // --- Countdown ---
+    function updateTimer() {
+        const now          = Date.now();
+        const distOpen     = announcementTime - now;
+        const distClose    = closingTime - now;
+        const pad          = n => String(n).padStart(2, '0');
+
+        if (distClose <= 0) {
+            clearInterval(timerInterval);
+            ['searchForm','countdownArea','closingCountdownArea','resultArea','loader'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            siteClosedArea.classList.remove('hidden');
+            return;
+        }
+
+        if (distOpen > 0) {
             searchForm.classList.add('hidden');
+            countdownArea.classList.remove('hidden');
             closingCountdownArea.classList.add('hidden');
-            loader.classList.remove('hidden');
-            searchBtn.disabled = true;
-        }
+            siteClosedArea.classList.add('hidden');
 
-        function hideLoader() {
-            loader.classList.add('hidden');
-            searchBtn.disabled = false;
-        }
-
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.classList.remove('hidden');
-        }
-
-        // --- Tampilkan hasil ---
-        function displayResult(student) {
-            resNama.textContent   = student.nama   || '-';
-            resNIS.textContent    = student.nis     || '-';
-            resKelas.textContent  = student.kelas   || '-';
-
-            const status = (student.status || '').toUpperCase();
-            statusText.textContent = status;
-            statusCard.className   = 'status-card';
-
-            if (status === 'LULUS') {
-                statusCard.classList.add('status-lulus');
-                statusLabel.textContent   = 'Selamat! Anda dinyatakan';
-                cardIcon.innerHTML        = '<i class="fa-solid fa-trophy"></i>';
-
-                const sklBtn = document.getElementById('sklBtn');
-                const urlSkl = student.url_skl || '';
-                if (urlSkl) {
-                    sklBtn.style.display = 'block';
-                    sklBtn.onclick = () => window.open(urlSkl, '_blank');
-                } else {
-                    sklBtn.style.display = 'none';
-                }
-                fireConfetti();
-            } else {
-                statusCard.classList.add('status-tidak-lulus');
-                statusLabel.textContent = 'Tetap Semangat! Anda dinyatakan';
-                cardIcon.innerHTML      = '<i class="fa-solid fa-circle-xmark"></i>';
-                document.getElementById('sklBtn').style.display = 'none';
-            }
-
-            resultArea.classList.remove('hidden');
+            daysEl.textContent  = pad(Math.floor(distOpen / 86400000));
+            hoursEl.textContent = pad(Math.floor((distOpen % 86400000) / 3600000));
+            minsEl.textContent  = pad(Math.floor((distOpen % 3600000) / 60000));
+            secsEl.textContent  = pad(Math.floor((distOpen % 60000) / 1000));
+        } else {
+            countdownArea.classList.add('hidden');
+            siteClosedArea.classList.add('hidden');
             closingCountdownArea.classList.remove('hidden');
-        }
 
-        // --- Confetti ---
-        function fireConfetti() {
-            const duration    = 3000;
-            const animationEnd = Date.now() + duration;
-
-            confetti({ particleCount: 120, spread: 100, origin: { x: 0.5, y: 0.5 }, colors: ['#ff0','#ff69b4','#00cfff','#7c3aed','#10b981'] });
-
-            const interval = setInterval(() => {
-                const timeLeft     = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-                const particleCount = 60 * (timeLeft / duration);
-                const rand          = (min, max) => Math.random() * (max - min) + min;
-
-                [{ angle: 60, x: 0 }, { angle: 120, x: 1 }].forEach(({ angle, x }) => {
-                    confetti({ particleCount: Math.floor(particleCount / 2), angle, spread: 70, origin: { x, y: 0.6 }, colors: ['#ff0','#ff69b4','#00cfff','#7c3aed','#f97316'], ticks: 200, gravity: 0.8, scalar: rand(0.8, 1.4), drift: rand(-0.5, 0.5) });
-                });
-            }, 300);
-        }
-
-        // --- Countdown Timer ---
-        function updateTimer() {
-            const now          = Date.now();
-            const distanceOpen = announcementTime - now;
-            const distanceClose = closingTime - now;
-
-            if (distanceClose <= 0) {
-                clearInterval(timerInterval);
-                ['searchForm','countdownArea','closingCountdownArea','resultArea','loader'].forEach(id => document.getElementById(id).classList.add('hidden'));
-                siteClosedArea.classList.remove('hidden');
-                return;
-            }
-
-            if (distanceOpen > 0) {
-                searchForm.classList.add('hidden');
-                countdownArea.classList.remove('hidden');
-                closingCountdownArea.classList.add('hidden');
-                siteClosedArea.classList.add('hidden');
-
-                const pad = n => String(n).padStart(2, '0');
-                daysEl.textContent  = pad(Math.floor(distanceOpen / 86400000));
-                hoursEl.textContent = pad(Math.floor((distanceOpen % 86400000) / 3600000));
-                minsEl.textContent  = pad(Math.floor((distanceOpen % 3600000) / 60000));
-                secsEl.textContent  = pad(Math.floor((distanceOpen % 60000) / 1000));
+            if (resultArea.classList.contains('hidden') && loader.classList.contains('hidden')) {
+                searchForm.classList.remove('hidden');
             } else {
-                countdownArea.classList.add('hidden');
-                siteClosedArea.classList.add('hidden');
-                closingCountdownArea.classList.remove('hidden');
-
-                if (resultArea.classList.contains('hidden') && loader.classList.contains('hidden')) {
-                    searchForm.classList.remove('hidden');
-                } else {
-                    searchForm.classList.add('hidden');
-                }
-
-                const pad = n => String(n).padStart(2, '0');
-                closingDaysEl.textContent  = pad(Math.floor(distanceClose / 86400000));
-                closingHoursEl.textContent = pad(Math.floor((distanceClose % 86400000) / 3600000));
-                closingMinsEl.textContent  = pad(Math.floor((distanceClose % 3600000) / 60000));
-                closingSecsEl.textContent  = pad(Math.floor((distanceClose % 60000) / 1000));
+                searchForm.classList.add('hidden');
             }
+
+            closingDaysEl.textContent  = pad(Math.floor(distClose / 86400000));
+            closingHoursEl.textContent = pad(Math.floor((distClose % 86400000) / 3600000));
+            closingMinsEl.textContent  = pad(Math.floor((distClose % 3600000) / 60000));
+            closingSecsEl.textContent  = pad(Math.floor((distClose % 60000) / 1000));
+        }
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer();
+    generateCaptcha();
+
+    // --- Auto-format tanggal lahir ---
+    birthDateInput.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '');
+        if (val.length >= 3 && val.length <= 4)      val = val.slice(0,2) + '/' + val.slice(2);
+        else if (val.length >= 5)                     val = val.slice(0,2) + '/' + val.slice(2,4) + '/' + val.slice(4,8);
+        e.target.value = val;
+    });
+
+    // --- Submit ---
+    searchForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const nis        = nisInput.value.trim();
+        const birthDate  = birthDateInput.value.trim();
+        const userAnswer = parseInt(captchaInput.value);
+
+        errorMessage.textContent = '';
+        errorMessage.classList.add('hidden');
+
+        if (!nis || !birthDate)      { showError('Harap isi NIS dan Tanggal Lahir'); return; }
+        if (birthDate.length !== 10) { showError('Format tanggal lahir harus tanggal/bulan/tahun (contoh: 17/08/2007)'); return; }
+        if (isNaN(userAnswer) || userAnswer !== captchaData.answer) {
+            showError('Jawaban keamanan salah. Silakan coba lagi.');
+            generateCaptcha();
+            captchaInput.value = '';
+            return;
         }
 
-        const timerInterval = setInterval(updateTimer, 1000);
-        updateTimer();
-        generateCaptcha();
+        showLoader();
 
-        // --- Auto-format tanggal lahir ---
-        birthDateInput.addEventListener('input', (e) => {
-            let val = e.target.value.replace(/\D/g, '');
-            if (val.length >= 3 && val.length <= 4)      val = val.slice(0,2) + '/' + val.slice(2);
-            else if (val.length >= 5)                     val = val.slice(0,2) + '/' + val.slice(2,4) + '/' + val.slice(4,8);
-            e.target.value = val;
-        });
+        try {
+            const url = `${GAS_URL}?nis=${encodeURIComponent(nis)}&tgl=${encodeURIComponent(birthDate)}`;
+            const res  = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        // --- Submit Form → fetch ke GAS API ---
-        searchForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            const result = await res.json();
+            hideLoader();
 
-            const nis       = nisInput.value.trim();
-            const birthDate = birthDateInput.value.trim();
-            const userAnswer = parseInt(captchaInput.value);
-
-            errorMessage.textContent = '';
-            errorMessage.classList.add('hidden');
-
-            if (!nis || !birthDate)       { showError('Harap isi NIS dan Tanggal Lahir'); return; }
-            if (birthDate.length !== 10)  { showError('Format tanggal lahir harus tanggal/bulan/tahun (contoh: 17/08/2007)'); return; }
-            if (isNaN(userAnswer) || userAnswer !== captchaData.answer) {
-                showError('Jawaban keamanan salah. Silakan coba lagi.');
-                generateCaptcha();
-                captchaInput.value = '';
-                return;
-            }
-
-            showLoader();
-
-            try {
-                // GAS doGet menerima parameter ?nis=...&tgl=...
-                const url = `${GAS_URL}?nis=${encodeURIComponent(nis)}&tgl=${encodeURIComponent(birthDate)}`;
-                const res  = await fetch(url);
-
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-                const result = await res.json();
-                hideLoader();
-
-                if (result.success && result.data) {
-                    displayResult(result.data);
-                } else {
-                    showError(result.message || 'Data tidak ditemukan. Periksa kembali NIS dan Tanggal Lahir Anda.');
-                    searchForm.classList.remove('hidden');
-                    closingCountdownArea.classList.remove('hidden');
-                    generateCaptcha();
-                    captchaInput.value = '';
-                }
-            } catch (err) {
-                hideLoader();
-                showError('Gagal menghubungi server. Periksa koneksi Anda dan coba lagi.');
+            if (result.success && result.data) {
+                displayResult(result.data);
+            } else {
+                showError(result.message || 'Data tidak ditemukan. Periksa kembali NIS dan Tanggal Lahir Anda.');
                 searchForm.classList.remove('hidden');
                 closingCountdownArea.classList.remove('hidden');
                 generateCaptcha();
+                captchaInput.value = '';
             }
-        });
-
-        // --- Kembali ---
-        backBtn.addEventListener('click', () => {
-            resultArea.classList.add('hidden');
+        } catch (err) {
+            hideLoader();
+            showError('Gagal menghubungi server. Periksa koneksi Anda dan coba lagi.');
             searchForm.classList.remove('hidden');
-            nisInput.value = '';
-            birthDateInput.value = '';
-            captchaInput.value = '';
+            closingCountdownArea.classList.remove('hidden');
             generateCaptcha();
-            nisInput.focus();
-        });
+        }
     });
-    </script>
+
+    // --- Kembali ---
+    backBtn.addEventListener('click', () => {
+        resultArea.classList.add('hidden');
+        searchForm.classList.remove('hidden');
+        nisInput.value = '';
+        birthDateInput.value = '';
+        captchaInput.value = '';
+        generateCaptcha();
+        nisInput.focus();
+    });
+});
+</script>
 </body>
 </html>
