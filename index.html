@@ -606,6 +606,11 @@
     text-align: center;
     padding: 0;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    width: 100%;
 }
 
 /* Panel utama dengan efek border bertekstur */
@@ -1035,6 +1040,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (distClose <= 0) {
             clearInterval(timerInterval);
             ['searchForm','countdownArea','closingCountdownArea','resultArea','loader'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            document.querySelector('.header').classList.add('hidden');
             siteClosedArea.classList.remove('hidden');
             return;
         }
