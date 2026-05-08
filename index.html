@@ -46,6 +46,12 @@
             position: relative;
         }
 
+        @supports (height: 100dvh) {
+            body {
+                min-height: 100dvh;
+            }
+        }
+
         /* ── Animated background ── */
         .bg-canvas {
             position: fixed;
