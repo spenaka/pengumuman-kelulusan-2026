@@ -191,8 +191,8 @@
         }
 
         .countdown-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(145deg, #1a1a3e 0%, #16213e 60%, #0f3460 100%);
+            border: 1px solid rgba(67,97,238,0.35);
             border-radius: var(--radius-md);
             padding: 1rem 0.5rem 0.75rem;
             display: flex;
@@ -200,6 +200,7 @@
             align-items: center;
             gap: 0.3rem;
             transition: border-color 0.3s;
+            box-shadow: 0 4px 20px rgba(67,97,238,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
         }
 
         .countdown-value {
@@ -222,8 +223,9 @@
 
         /* closing countdown */
         .closing-countdown .countdown-item {
-            background: rgba(239,35,60,0.08);
-            border-color: rgba(239,35,60,0.2);
+            background: linear-gradient(145deg, #2d0a14 0%, #1a0a0f 60%, #2d1420 100%);
+            border-color: rgba(239,35,60,0.4);
+            box-shadow: 0 4px 20px rgba(239,35,60,0.15), inset 0 1px 0 rgba(255,255,255,0.06);
         }
 
         .closing-countdown .countdown-value {
@@ -770,8 +772,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-05-08T09:25:00+07:00').getTime();
-    const closingTime      = new Date('2026-05-08T09:50:00+07:00').getTime();
+    const announcementTime = new Date('2026-05-07T11:25:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-07T11:50:00+07:00').getTime();
 
     // --- Captcha ---
     function generateCaptcha() {
