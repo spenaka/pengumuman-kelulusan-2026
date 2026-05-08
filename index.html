@@ -971,11 +971,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
         // ── Twinkling stars ──
-        (function() {
+        window.addEventListener('load', function() { (function() {
             const canvas = document.getElementById('starCanvas');
-            const ctx    = canvas.getContext('2d');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const COLORS = ['#ffffff','#4cc9f0','#f72585','#ffd60a','#4361ee','#c8b6ff'];
+            const COUNT  = 130;
             const stars  = [];
-            const COUNT  = 120;
 
             function resize() {
                 canvas.width  = window.innerWidth;
@@ -984,56 +986,56 @@ document.addEventListener('DOMContentLoaded', () => {
             resize();
             window.addEventListener('resize', resize);
 
-            const COLORS = ['#ffffff','#4cc9f0','#f72585','#ffd60a','#4361ee','#a5f3fc'];
-
             for (let i = 0; i < COUNT; i++) {
+                const isCross = Math.random() < 0.3;
                 stars.push({
-                    x:       Math.random(),
-                    y:       Math.random(),
-                    size:    Math.random() * 1.8 + 0.4,
+                    x:       Math.random() * window.innerWidth,
+                    y:       Math.random() * window.innerHeight,
+                    size:    Math.random() * 1.6 + 0.5,
                     color:   COLORS[Math.floor(Math.random() * COLORS.length)],
                     phase:   Math.random() * Math.PI * 2,
-                    speed:   Math.random() * 0.6 + 0.3,
-                    twinkle: Math.random() * 0.5 + 0.3,
-                    cross:   Math.random() < 0.25  // 25% jadi bintang + salib
+                    speed:   Math.random() * 1.5 + 0.5,
+                    minA:    Math.random() * 0.1,
+                    maxA:    Math.random() * 0.5 + 0.5,
+                    cross:   isCross
                 });
             }
 
-            function drawCross(ctx, x, y, size, alpha, color) {
+            function drawStar4(x, y, size, alpha, color) {
                 ctx.save();
                 ctx.globalAlpha = alpha;
                 ctx.strokeStyle = color;
-                ctx.lineWidth   = size * 0.5;
-                ctx.lineCap     = 'round';
-                const arm = size * 2.5;
+                ctx.lineCap = 'round';
+                const arm = size * 3;
+                ctx.lineWidth = size * 0.6;
                 ctx.beginPath(); ctx.moveTo(x - arm, y); ctx.lineTo(x + arm, y); ctx.stroke();
                 ctx.beginPath(); ctx.moveTo(x, y - arm); ctx.lineTo(x, y + arm); ctx.stroke();
-                // diagonal kecil
-                const d = arm * 0.45;
+                const d = arm * 0.5;
                 ctx.lineWidth = size * 0.25;
-                ctx.globalAlpha = alpha * 0.5;
+                ctx.globalAlpha = alpha * 0.4;
                 ctx.beginPath(); ctx.moveTo(x - d, y - d); ctx.lineTo(x + d, y + d); ctx.stroke();
                 ctx.beginPath(); ctx.moveTo(x + d, y - d); ctx.lineTo(x - d, y + d); ctx.stroke();
                 ctx.restore();
             }
 
+            let last = 0;
             function draw(ts) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 const t = ts / 1000;
                 for (const s of stars) {
-                    const alpha = s.twinkle + (1 - s.twinkle) * 0.5 * (1 + Math.sin(t * s.speed + s.phase));
-                    const px = s.x * canvas.width;
-                    const py = s.y * canvas.height;
+                    // alpha berkedip dengan sin wave
+                    const raw = 0.5 + 0.5 * Math.sin(t * s.speed + s.phase);
+                    const alpha = s.minA + (s.maxA - s.minA) * raw;
                     if (s.cross) {
-                        drawCross(ctx, px, py, s.size, alpha, s.color);
+                        drawStar4(s.x, s.y, s.size, alpha, s.color);
                     } else {
                         ctx.save();
                         ctx.globalAlpha = alpha;
                         ctx.fillStyle   = s.color;
                         ctx.shadowColor = s.color;
-                        ctx.shadowBlur  = s.size * 4;
+                        ctx.shadowBlur  = s.size * 5;
                         ctx.beginPath();
-                        ctx.arc(px, py, s.size, 0, Math.PI * 2);
+                        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
                         ctx.fill();
                         ctx.restore();
                     }
@@ -1041,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 requestAnimationFrame(draw);
             }
             requestAnimationFrame(draw);
-        })();
+        })(); }); // end load
     </script>
 </body>
 </html>
