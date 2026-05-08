@@ -961,8 +961,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-05-08T14:25:00+07:00').getTime();
-    const closingTime      = new Date('2026-05-08T14:30:00+07:00').getTime();
+    const announcementTime = new Date('2026-05-08T14:35:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-08T14:40:00+07:00').getTime();
 
     // --- Captcha ---
     function generateCaptcha() {
@@ -1077,9 +1077,14 @@ document.addEventListener('DOMContentLoaded', () => {
             closingCountdownArea.classList.remove('hidden');
 
             if (resultArea.classList.contains('hidden') && loader.classList.contains('hidden')) {
+                const wasHidden = searchForm.classList.contains('hidden');
                 searchForm.classList.remove('hidden');
-            } else {
-                searchForm.classList.add('hidden');
+                // Auto fokus ke NIS hanya sekali saat form pertama kali muncul
+                if (wasHidden) {
+                setTimeout(() => nisInput.focus(), 100);
+                    }
+                } else {
+            searchForm.classList.add('hidden');
             }
 
             closingDaysEl.textContent  = pad(Math.floor(distClose / 86400000));
