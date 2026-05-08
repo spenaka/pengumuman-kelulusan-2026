@@ -123,12 +123,13 @@
             inset: -2px;
             border-radius: calc(var(--radius-lg) + 2px);
             background: conic-gradient(
-                from var(--angle, 0deg),
-                var(--c-indigo),
-                var(--c-cyan),
-                var(--c-pink),
-                var(--c-yellow),
-                var(--c-indigo)
+            from var(--angle, 0deg),
+                #0a0a1a,
+                #00b4ff,
+                #00e5ff,
+                #0072ff,
+                #00b4ff,
+                #0a0a1a
             );
             animation: borderSpin 4s linear infinite;
             z-index: -1;
@@ -590,41 +591,178 @@
         .notice-dot { color: var(--c-yellow); flex-shrink: 0; margin-top: 2px; }
 
         /* ── Site closed ── */
-        .site-closed {
-            text-align: center;
-            padding: 2.5rem 0;
-        }
+.site-closed {
+    text-align: center;
+    padding: 0;
+    position: relative;
+}
 
-        .closed-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
+/* Panel utama dengan efek border bertekstur */
+.closed-panel {
+    position: relative;
+    border-radius: 1.25rem;
+    padding: 2.25rem 1.5rem 2rem;
+    background: linear-gradient(160deg, rgba(239,35,60,0.08) 0%, rgba(114,9,183,0.06) 100%);
+    border: 1px solid rgba(239,35,60,0.22);
+    overflow: hidden;
+    isolation: isolate;
+}
 
-        .closed-title {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 800;
-            margin-bottom: 0.75rem;
-        }
+/* Garis stripe diagonal di background panel */
+.closed-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 14px,
+        rgba(239,35,60,0.04) 14px,
+        rgba(239,35,60,0.04) 15px
+    );
+    pointer-events: none;
+    z-index: 0;
+    border-radius: inherit;
+}
 
-        .closed-desc {
-            color: var(--c-muted);
-            font-size: 0.9rem;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
+/* Glow di bagian atas panel */
+.closed-panel::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(239,35,60,0.25) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
 
-        .closed-contact {
-            background: rgba(239,35,60,0.08);
-            border: 1px solid rgba(239,35,60,0.2);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            color: #ff6b6b;
-            font-size: 0.87rem;
-            font-weight: 600;
-            line-height: 1.8;
-        }
+/* Semua isi panel harus di atas pseudo-element */
+.closed-panel > * { position: relative; z-index: 1; }
+
+/* Badge STATUS DITUTUP */
+.closed-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(239,35,60,0.15);
+    border: 1px solid rgba(239,35,60,0.35);
+    color: #ff6b6b;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+}
+
+.closed-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ff6b6b;
+    flex-shrink: 0;
+    animation: pulseDot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.65); }
+}
+
+/* Ikon kunci dengan ring melingkar */
+.closed-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.25rem;
+}
+
+.closed-icon-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(239,35,60,0.4);
+    animation: ringRotate 10s linear infinite;
+}
+
+.closed-icon-ring-inner {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    border: 1px solid rgba(239,35,60,0.18);
+}
+
+.closed-icon-bg {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(239,35,60,0.12);
+    border: 1px solid rgba(239,35,60,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(239,35,60,0.18);
+}
+
+@keyframes ringRotate {
+    to { transform: rotate(360deg); }
+}
+
+/* Garis pemisah dekoratif */
+.closed-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+}
+
+.closed-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(239,35,60,0.3), transparent);
+}
+
+.closed-divider-icon {
+    font-size: 0.65rem;
+    color: rgba(239,35,60,0.5);
+}
+
+.closed-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.6rem;
+    color: #fff;
+    letter-spacing: -0.01em;
+}
+
+.closed-desc {
+    color: rgba(240,240,255,0.55);
+    font-size: 0.87rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.closed-contact {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    color: rgba(240,240,255,0.65);
+    font-size: 0.87rem;
+    font-weight: 600;
+    line-height: 1.9;
+    margin-top: 1.5rem;
+}
 
         .hidden { display: none !important; }
 
@@ -744,16 +882,31 @@
             </div>
         </div>
 
-        <!-- Situs Ditutup -->
-        <div id="siteClosedArea" class="site-closed hidden">
-            <span class="closed-icon">🔒</span>
-            <h2 class="closed-title">Pengumuman Telah Ditutup</h2>
-            <p class="closed-desc">Masa pengumuman kelulusan telah berakhir.<br>Silakan hubungi pihak sekolah untuk informasi lebih lanjut.</p>
-            <div class="closed-contact">
-                📞 SMP Negeri 1 Kajoran<br>
-                🕐 Jam Operasional: 07.00 – 15.00 WIB
-            </div>
+<!-- Situs Ditutup -->
+<div id="siteClosedArea" class="site-closed hidden">
+    <div class="closed-panel">
+        <div class="closed-badge">
+            <span class="closed-badge-dot"></span>
+            Status Ditutup
         </div>
+        <div class="closed-icon-wrap">
+            <div class="closed-icon-ring"></div>
+            <div class="closed-icon-ring-inner"></div>
+            <div class="closed-icon-bg">🔒</div>
+        </div>
+        <div class="closed-divider">
+            <div class="closed-divider-line"></div>
+            <span class="closed-divider-icon">✦</span>
+            <div class="closed-divider-line"></div>
+        </div>
+        <h2 class="closed-title">Pengumuman Telah Ditutup</h2>
+        <p class="closed-desc">Masa pengumuman kelulusan telah berakhir.<br>Silakan hubungi pihak sekolah untuk informasi lebih lanjut.</p>
+        <div class="closed-contact">
+            📞 SMP Negeri 1 Kajoran<br>
+            🕐 Jam Operasional: 07.00 – 15.00 WIB
+        </div>
+    </div>
+</div>
 
     </div>
 </main>
