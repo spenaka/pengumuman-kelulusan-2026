@@ -558,6 +558,8 @@
             transition: all 0.2s;
             gap: 0.5rem;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
 
         .btn-skl:hover {
@@ -935,7 +937,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
     const announcementTime = new Date('2026-05-08T14:50:00+07:00').getTime();
-    const closingTime      = new Date('2026-05-08T14:55:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-08T14:59:00+07:00').getTime();
 
     // --- Captcha ---
     function generateCaptcha() {
