@@ -615,6 +615,9 @@
     border: 1px solid rgba(239,35,60,0.22);
     overflow: hidden;
     isolation: isolate;
+    display: flex;           
+    flex-direction: column;  
+    align-items: center;
 }
 
 /* Garis stripe diagonal di background panel */
@@ -650,32 +653,6 @@
 
 /* Semua isi panel harus di atas pseudo-element */
 .closed-panel > * { position: relative; z-index: 1; }
-
-/* Badge STATUS DITUTUP */
-.closed-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: rgba(239,35,60,0.15);
-    border: 1px solid rgba(239,35,60,0.35);
-    color: #ff6b6b;
-    font-size: 0.67rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.85rem;
-    border-radius: 999px;
-    margin-bottom: 1.25rem;
-}
-
-.closed-badge-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #ff6b6b;
-    flex-shrink: 0;
-    animation: pulseDot 1.6s ease-in-out infinite;
-}
 
 @keyframes pulseDot {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -894,10 +871,6 @@
 <!-- Situs Ditutup -->
 <div id="siteClosedArea" class="site-closed hidden">
     <div class="closed-panel">
-        <div class="closed-badge">
-            <span class="closed-badge-dot"></span>
-            Status Ditutup
-        </div>
         <div class="closed-icon-wrap">
             <div class="closed-icon-ring"></div>
             <div class="closed-icon-ring-inner"></div>
@@ -961,8 +934,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-05-08T14:35:00+07:00').getTime();
-    const closingTime      = new Date('2026-05-08T14:40:00+07:00').getTime();
+    const announcementTime = new Date('2026-05-08T14:50:00+07:00').getTime();
+    const closingTime      = new Date('2026-05-08T14:55:00+07:00').getTime();
 
     // --- Captcha ---
     function generateCaptcha() {
@@ -1031,7 +1004,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Confetti ---
     function fireConfetti() {
-        const duration    = 4000;
+        const duration    = 3000;
         const animEnd     = Date.now() + duration;
 
         confetti({ particleCount: 150, spread: 110, origin: { x: 0.5, y: 0.5 }, colors: ['#4361ee','#f72585','#4cc9f0','#ffd60a','#06d6a0'] });
@@ -1071,19 +1044,14 @@ document.addEventListener('DOMContentLoaded', () => {
             hoursEl.textContent = pad(Math.floor((distOpen % 86400000) / 3600000));
             minsEl.textContent  = pad(Math.floor((distOpen % 3600000) / 60000));
             secsEl.textContent  = pad(Math.floor((distOpen % 60000) / 1000));
-        } else {
+            } else {
             countdownArea.classList.add('hidden');
             siteClosedArea.classList.add('hidden');
             closingCountdownArea.classList.remove('hidden');
 
             if (resultArea.classList.contains('hidden') && loader.classList.contains('hidden')) {
-                const wasHidden = searchForm.classList.contains('hidden');
-                searchForm.classList.remove('hidden');
-                // Auto fokus ke NIS hanya sekali saat form pertama kali muncul
-                if (wasHidden) {
-                setTimeout(() => nisInput.focus(), 100);
-                    }
-                } else {
+            searchForm.classList.remove('hidden');
+            } else {
             searchForm.classList.add('hidden');
             }
 
