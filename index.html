@@ -618,6 +618,7 @@
     padding: 0;
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 60vh;
@@ -625,7 +626,7 @@
 }
 
 /* Panel utama dengan efek border bertekstur */
-.closed-panel {
+/*.closed-panel {
     position: relative;
     border-radius: 1.25rem;
     padding: 2.25rem 1.5rem 2rem;
@@ -639,7 +640,7 @@
 }
 
 /* Garis stripe diagonal di background panel */
-.closed-panel::before {
+/*.closed-panel::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -656,7 +657,7 @@
 }
 
 /* Glow di bagian atas panel */
-.closed-panel::after {
+/*.closed-panel::after {
     content: '';
     position: absolute;
     top: -30px;
@@ -670,7 +671,7 @@
 }
 
 /* Semua isi panel harus di atas pseudo-element */
-.closed-panel > * { position: relative; z-index: 1; }*/
+/*.closed-panel > * { position: relative; z-index: 1; }*/
 
 @keyframes pulseDot {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -779,7 +780,7 @@
             .container { padding: 1rem; }
             .card { padding: 1.75rem 1.25rem; border-radius: 1.25rem; }
             .title { font-size: 1.55rem; }
-            .school-logo { width: 80px; height: auto; }
+            .school-logo { width: 70px; height: auto; }
             .header { margin-bottom: 1.75rem; }
             .countdown-value { font-size: 1.6rem; }
             .status-big { font-size: 2.1rem; }
