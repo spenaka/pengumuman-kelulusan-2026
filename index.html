@@ -625,7 +625,7 @@
 }
 
 /* Panel utama dengan efek border bertekstur */
-/*.closed-panel {
+.closed-panel {
     position: relative;
     border-radius: 1.25rem;
     padding: 2.25rem 1.5rem 2rem;
@@ -639,7 +639,7 @@
 }
 
 /* Garis stripe diagonal di background panel */
-/*.closed-panel::before {
+.closed-panel::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -656,7 +656,7 @@
 }
 
 /* Glow di bagian atas panel */
-/*.closed-panel::after {
+.closed-panel::after {
     content: '';
     position: absolute;
     top: -30px;
@@ -670,7 +670,7 @@
 }
 
 /* Semua isi panel harus di atas pseudo-element */
-/*.closed-panel > * { position: relative; z-index: 1; }*/
+.closed-panel > * { position: relative; z-index: 1; }*/
 
 @keyframes pulseDot {
     0%, 100% { opacity: 1; transform: scale(1); }
