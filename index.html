@@ -827,8 +827,8 @@
         <!-- Form -->
         <form id="searchForm" class="form hidden">
             <div class="input-group">
-                <label class="label" for="nisnInput">Nomor Induk Siswa Nasional(NISN)</label>
-                <input type="tel" id="nisnInput" class="input" placeholder="Masukkan NISN Anda" required autocomplete="off">
+                <label class="label" for="nisInput">Nomor Induk Siswa Nasional (NISN)</label>
+                <input type="tel" id="nisInput" class="input" placeholder="Masukkan NISN Anda" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label class="label" for="birthDateInput">Tanggal Lahir</label>
@@ -857,7 +857,7 @@
             <div id="statusCard" class="status-card">
                 <div class="status-icon" id="cardIcon"><i class="fa-solid fa-trophy"></i></div>
                 <div class="student-name" id="resNama">-</div>
-                <div class="student-meta">NISN: <span id="resNISN">-</span> &nbsp;•&nbsp; Kelas: <span id="resKelas">-</span></div>
+                <div class="student-meta">NISN: <span id="resNIS">-</span> &nbsp;•&nbsp; Kelas: <span id="resKelas">-</span></div>
                 <div class="divider-line"></div>
                 <div class="status-label-text" id="statusLabel">Selamat! Anda dinyatakan</div>
                 <div class="status-big" id="statusText">LULUS</div>
@@ -934,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closingMinsEl        = document.getElementById('closingMinutes');
     const closingSecsEl        = document.getElementById('closingSeconds');
     const searchForm           = document.getElementById('searchForm');
-    const nisnInput             = document.getElementById('nisnInput');
+    const nisInput             = document.getElementById('nisInput');
     const birthDateInput       = document.getElementById('birthDateInput');
     const captchaInput         = document.getElementById('captchaInput');
     const captchaLabel         = document.getElementById('captchaLabel');
@@ -949,7 +949,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const minsEl               = document.getElementById('minutes');
     const secsEl               = document.getElementById('seconds');
     const resNama              = document.getElementById('resNama');
-    const resNISN               = document.getElementById('resNISN');
+    const resNIS               = document.getElementById('resNIS');
     const resKelas             = document.getElementById('resKelas');
     const statusText           = document.getElementById('statusText');
     const statusLabel          = document.getElementById('statusLabel');
@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Tampilkan hasil ---
     function displayResult(student) {
         resNama.textContent  = student.nama  || '-';
-        resNISN.textContent   = student.nisn   || '-';
+        resNIS.textContent   = student.nisn   || '-';
         resKelas.textContent = student.kelas || '-';
 
         const status = (student.status || '').toUpperCase();
@@ -1165,14 +1165,14 @@ document.addEventListener('DOMContentLoaded', () => {
         searchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const nisn        = nisnInput.value.trim();
+        const nis        = nisInput.value.trim();
         const birthDate  = birthDateInput.value.trim();
         const userAnswer = parseInt(captchaInput.value);
 
         errorMessage.textContent = '';
         errorMessage.classList.add('hidden');
 
-        if (!nisn || !birthDate)      { showError('Harap isi NISN dan Tanggal Lahir'); return; }
+        if (!nis || !birthDate)      { showError('Harap isi NISN dan Tanggal Lahir'); return; }
         if (birthDate.length !== 10) { showError('Format tanggal lahir harus tanggal/bulan/tahun (contoh: 17/08/2007)'); return; }
         if (isNaN(userAnswer) || userAnswer !== captchaData.answer) {
             showError('Jawaban keamanan salah. Silakan coba lagi.');
@@ -1185,7 +1185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closingCountdownArea.classList.add('hidden');
 
         try {
-            const url = `${GAS_URL}?nisn=${encodeURIComponent(nisn)}&tgl=${encodeURIComponent(birthDate)}`;
+            const url = `${GAS_URL}?nis=${encodeURIComponent(nis)}&tgl=${encodeURIComponent(birthDate)}`;
             const res  = await fetch(url);
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
@@ -1214,7 +1214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     backBtn.addEventListener('click', () => {
         resultArea.classList.add('hidden');
         searchForm.classList.remove('hidden');
-        nisnInput.value = '';
+        nisInput.value = '';
         birthDateInput.value = '';
         captchaInput.value = '';
         generateCaptcha();
