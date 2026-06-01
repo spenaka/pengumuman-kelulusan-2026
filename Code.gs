@@ -12,12 +12,12 @@
  * ============================================================
  */
 
-const SPREADSHEET_ID = '1ndKJmK7zslkND_HxZdc7lL7UM2N6FgK9wM7WCr01gfA';
+const SPREADSHEET_ID = '170ZjH1ONRL2Bj7OlyPUTWDzjCTVzswxtQL9SO4y_gms';
 const SHEET_NAME     = 'DataKelulusan';
 
 /**
  * Menerima request GET dari Cloudflare Pages
- * Parameter: ?nis=...&tgl=...  (tgl format: DD/MM/YYYY)
+ * Parameter: ?nisn=...&tgl=...  (tgl format: DD/MM/YYYY)
  */
 function doGet(e) {
   // Izinkan akses dari domain manapun (CORS)
@@ -25,25 +25,25 @@ function doGet(e) {
   output.setMimeType(ContentService.MimeType.JSON);
 
   try {
-    const nis = (e.parameter.nis || '').toString().trim();
+    const nisn = (e.parameter.nisn || '').toString().trim();
     const tgl = (e.parameter.tgl || '').toString().trim(); // DD/MM/YYYY
 
-    if (!nis || !tgl) {
+    if (!nisn || !tgl) {
       output.setContent(JSON.stringify({
         success: false,
-        message: 'Parameter NIS dan tanggal lahir (tgl) diperlukan.'
+        message: 'Parameter NISN dan tanggal lahir (tgl) diperlukan.'
       }));
       return output;
     }
 
-    const result = searchStudent(nis, tgl);
+    const result = searchStudent(nisn, tgl);
 
     if (result) {
       output.setContent(JSON.stringify({ success: true, data: result }));
     } else {
       output.setContent(JSON.stringify({
         success: false,
-        message: 'Data tidak ditemukan. Periksa kembali NIS dan Tanggal Lahir Anda.'
+        message: 'Data tidak ditemukan. Periksa kembali NISN dan Tanggal Lahir Anda.'
       }));
     }
   } catch (err) {
@@ -57,15 +57,15 @@ function doGet(e) {
 }
 
 /**
- * Mencari siswa berdasarkan NIS dan Tanggal Lahir
- * @param {string} nis - NIS siswa
+ * Mencari siswa berdasarkan NISN dan Tanggal Lahir
+ * @param {string} nisn - NISN siswa
  * @param {string} birthDate - Tanggal lahir format DD/MM/YYYY
  * @return {Object|null}
  */
-function searchStudent(nis, birthDate) {
-  if (!nis || !birthDate) return null;
+function searchStudent(nisn, birthDate) {
+  if (!nisn || !birthDate) return null;
 
-  const nisInput = nis.toString().trim();
+  const nisnInput = nisn.toString().trim();
   const dobInput = birthDate.toString().trim(); // DD/MM/YYYY
 
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
@@ -75,26 +75,26 @@ function searchStudent(nis, birthDate) {
   const data    = sheet.getDataRange().getValues();
   const headers = data[0].map(h => h.toString().toLowerCase().trim());
 
-  const nisIndex   = headers.indexOf('nis');
+  const nisnIndex   = headers.indexOf('nisn');
   const dobIndex   = headers.indexOf('tanggal_lahir');
   const namaIndex  = headers.indexOf('nama siswa');
   const kelasIndex = headers.indexOf('kelas');
   const statIndex  = headers.indexOf('status kelulusan');
   const sklIndex   = headers.indexOf('link skl di google drive');
 
-  if (nisIndex  === -1) throw new Error('Kolom "nis" tidak ditemukan.');
+  if (nisnIndex  === -1) throw new Error('Kolom "nisn" tidak ditemukan.');
   if (dobIndex  === -1) throw new Error('Kolom "tanggal_lahir" tidak ditemukan.');
 
   for (let i = 1; i < data.length; i++) {
     const row      = data[i];
-    const sheetNis = row[nisIndex].toString().trim();
+    const sheetNisn = row[nisnIndex].toString().trim();
     const sheetDob = normalizeTanggal(row[dobIndex]); // selalu DD/MM/YYYY
 
-    Logger.log(`Row ${i} → NIS:[${sheetNis}] DOB:[${sheetDob}] | Input → NIS:[${nisInput}] DOB:[${dobInput}]`);
+    Logger.log(`Row ${i} → NISN:[${sheetNisn}] DOB:[${sheetDob}] | Input → NISN:[${nisnInput}] DOB:[${dobInput}]`);
 
-    if (sheetNis === nisInput && sheetDob === dobInput) {
+    if (sheetNisn === nisnInput && sheetDob === dobInput) {
       return {
-        nis    : sheetNis,
+        nisn    : sheetNisn,
         nama   : namaIndex  >= 0 ? row[namaIndex].toString()  : '',
         kelas  : kelasIndex >= 0 ? row[kelasIndex].toString()  : '',
         status : statIndex  >= 0 ? row[statIndex].toString()   : '',
