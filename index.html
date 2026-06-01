@@ -827,9 +827,8 @@
         <!-- Form -->
         <form id="searchForm" class="form hidden">
             <div class="input-group">
-                <label class="label" for="nisInput">Nomor Induk Siswa Nasional (NISN)</label>
-                <input type="tel" id="nisInput" class="input" placeholder="Masukkan NISN (10 digit)" required autocomplete="off" inputmode="numeric" maxlength="11">
-                <small class="input-hint">Jika NISN diawali angka 0, ketik dengan tanda petik di depan — contoh: <b>'0123456789</b></small>
+                <label class="label" for="nisInput">Nomor Induk Siswa (NIS)</label>
+                <input type="tel" id="nisInput" class="input" placeholder="Masukkan NIS Anda" required autocomplete="off">
             </div>
             <div class="input-group">
                 <label class="label" for="birthDateInput">Tanggal Lahir</label>
@@ -960,7 +959,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let captchaData = { a: 0, b: 0, answer: 0 };
 
     // ⬇️ Sesuaikan waktu buka & tutup pengumuman (format ISO, zona WIB = +07:00)
-    const announcementTime = new Date('2026-06-01T10:00:00+07:00').getTime();
+    const announcementTime = new Date('2026-06-02T13:00:00+07:00').getTime();
     const closingTime      = new Date('2026-06-03T13:00:00+07:00').getTime();
 
     // --- Captcha ---
@@ -1162,38 +1161,18 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.value = val;
     });
 
-// --- Auto-format NISN: tampilkan ' di depan jika nilai asli mulai 0 ---   ← TAMBAHKAN DI SINI
-nisInput.addEventListener('input', (e) => {
-    let val = e.target.value;
-    if (val.length === 1 && val === '0') {
-        e.target.value = "'0";
-    }
-    const digits = val.startsWith("'") ? val.slice(1) : val;
-    if (digits.length > 10) {
-        e.target.value = (val.startsWith("'") ? "'" : "") + digits.slice(0, 10);
-    }
-});
-    
     // --- Submit ---
         searchForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        let nisRaw = nisInput.value.trim();
-        // Hapus tanda ' di depan jika ada (untuk NISN awalan 0)
-        const nis = nisRaw.startsWith("'") ? nisRaw.slice(1) : nisRaw;
-        
-        // Validasi: harus 10 digit angka
-        if (!/^\d{10}$/.test(nis)) {
-            showError('NISN harus terdiri dari 10 digit angka. Jika diawali 0, gunakan tanda petik di depan — contoh: \'0123456789');
-        return;
-        }
+        const nis        = nisInput.value.trim();
         const birthDate  = birthDateInput.value.trim();
         const userAnswer = parseInt(captchaInput.value);
 
         errorMessage.textContent = '';
         errorMessage.classList.add('hidden');
 
-        if (!nis || !birthDate)      { showError('Harap isi NISN dan Tanggal Lahir'); return; }
+        if (!nis || !birthDate)      { showError('Harap isi NIS dan Tanggal Lahir'); return; }
         if (birthDate.length !== 10) { showError('Format tanggal lahir harus tanggal/bulan/tahun (contoh: 17/08/2007)'); return; }
         if (isNaN(userAnswer) || userAnswer !== captchaData.answer) {
             showError('Jawaban keamanan salah. Silakan coba lagi.');
