@@ -65,8 +65,8 @@ function doGet(e) {
 function searchStudent(nisn, birthDate) {
   if (!nisn || !birthDate) return null;
 
-  const nisnInput = nisn.toString().trim();
-  const dobInput = birthDate.toString().trim(); // DD/MM/YYYY
+  const nisnInput = String(Math.round(Number(nisn))).trim();
+  const dobInput  = birthDate.toString().trim();
 
   const ss    = SpreadsheetApp.openById(SPREADSHEET_ID);
   const sheet = ss.getSheetByName(SHEET_NAME);
@@ -77,18 +77,18 @@ function searchStudent(nisn, birthDate) {
 
   const nisnIndex   = headers.indexOf('nisn');
   const dobIndex   = headers.indexOf('tanggal_lahir');
-  const namaIndex  = headers.indexOf('nama siswa');
+  const namaIndex  = headers.indexOf('nama');
   const kelasIndex = headers.indexOf('kelas');
-  const statIndex  = headers.indexOf('status kelulusan');
-  const sklIndex   = headers.indexOf('link skl di google drive');
+  const statIndex  = headers.indexOf('status');
+  const sklIndex   = headers.indexOf('url_skl');
 
   if (nisnIndex  === -1) throw new Error('Kolom "nisn" tidak ditemukan.');
   if (dobIndex  === -1) throw new Error('Kolom "tanggal_lahir" tidak ditemukan.');
 
   for (let i = 1; i < data.length; i++) {
     const row      = data[i];
-    const sheetNisn = row[nisnIndex].toString().trim();
-    const sheetDob = normalizeTanggal(row[dobIndex]); // selalu DD/MM/YYYY
+    const sheetNisn = String(Math.round(Number(row[nisnIndex]))).trim();
+    const sheetDob  = normalizeTanggal(row[dobIndex]);
 
     Logger.log(`Row ${i} → NISN:[${sheetNisn}] DOB:[${sheetDob}] | Input → NISN:[${nisnInput}] DOB:[${dobInput}]`);
 
